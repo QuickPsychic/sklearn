@@ -29,6 +29,7 @@ data[columns_with_zeros] = data[columns_with_zeros].replace(0, np.nan)
 imputer = SimpleImputer(strategy="median")
 data[columns_with_zeros] = imputer.fit_transform(data[columns_with_zeros])
 
-# Seguir Axel, que es separar features y target, scalers, split-train y luego el modelo
+# Seguir Axel, que es separar features y target, scalers, split-train y luego el modelo. Luego solo sacar predicciones e imprimirlas
+
 
 
