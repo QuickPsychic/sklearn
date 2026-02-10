@@ -9,6 +9,8 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.metrics import accuracy_score
 
 
 # Cargar DataSet
@@ -29,7 +31,33 @@ data[columns_with_zeros] = data[columns_with_zeros].replace(0, np.nan)
 imputer = SimpleImputer(strategy="median")
 data[columns_with_zeros] = imputer.fit_transform(data[columns_with_zeros])
 
-# Seguir Axel, que es separar features y target, scalers, split-train y luego el modelo. Luego solo sacar predicciones e imprimirlas
+# Separar features (X) y target (y)
+X = data.drop(columns=['target'])
+y = data['target']
+
+# Split train-test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Scalers
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Modelo AdaBoostClassifier (
+ada_model = AdaBoostClassifier(
+    n_estimators=100,
+    learning_rate=1.0,
+    random_state=42,
+)
+
+# Entrenar el modelo
+ada_model.fit(X_train, y_train)
+
+# Sacar predicciones
+predictions = ada_model.predict(X_test)
+
+print("Predicciones:", predictions)
+print("Accuracy:", accuracy_score(y_test, predictions))
 
 
 
